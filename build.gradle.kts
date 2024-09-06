@@ -19,6 +19,7 @@ dependencies {
     compileOnly("jakarta.servlet:jakarta.servlet-api:6.1.0")
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
+    implementation("org.hibernate.orm:hibernate-core:6.6.0.Final")
 }
 
 tasks.withType<War> {
