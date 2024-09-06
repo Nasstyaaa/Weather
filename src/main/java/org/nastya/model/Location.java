@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "lacations",
-        indexes = @Index(columnList = " "))
+        indexes = @Index(columnList = "user, name, latitude, longitude"))
 public class Location {
 
     @Id
@@ -16,7 +16,7 @@ public class Location {
     private String name;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
     private BigDecimal latitude;
