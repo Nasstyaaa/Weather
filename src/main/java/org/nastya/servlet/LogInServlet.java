@@ -38,13 +38,13 @@ public class LogInServlet extends HttpServlet {
         }
 
         User user = new User(login, password);
-
-        if (userDAO.find(user).isPresent()) {
-            //TODO Sessions
-            resp.sendRedirect("/main");
-        } else {
+        if (userDAO.find(user).isEmpty()) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             resp.sendRedirect("/registration");
+            return;
         }
+
+        //TODO Sessions
+        resp.sendRedirect("/main");
     }
 }
