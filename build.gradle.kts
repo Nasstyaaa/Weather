@@ -22,6 +22,7 @@ dependencies {
     implementation("org.hibernate.orm:hibernate-core:6.6.0.Final")
     implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
     implementation("org.postgresql:postgresql:42.7.4")
+    implementation("org.mindrot:jbcrypt:0.4")
 }
 
 tasks.withType<War> {
