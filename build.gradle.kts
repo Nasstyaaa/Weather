@@ -21,6 +21,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.34")
     implementation("org.hibernate.orm:hibernate-core:6.6.0.Final")
     implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
+    implementation("org.postgresql:postgresql:42.7.4")
 }
 
 tasks.withType<War> {
