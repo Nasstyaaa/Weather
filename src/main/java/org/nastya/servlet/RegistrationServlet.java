@@ -11,16 +11,14 @@ import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/user")
-public class UserServlet extends HttpServlet {
-
+@WebServlet(urlPatterns = "/registration")
+public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         TemplateEngine engine = ThymeleafConfig.buildTemplateEngine(req.getServletContext());
+        WebContext context = ThymeleafConfig.buildWebContext(req, resp, req.getServletContext());
 
-        WebContext context = ThymeleafConfig.buildWebContext(req, resp, getServletContext());
-        context.setVariable("recipient", "World");
-        engine.process("index", context, resp.getWriter());
+        engine.process("registration", context, resp.getWriter());
     }
 }
