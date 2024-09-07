@@ -40,5 +40,7 @@ public class RegistrationServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
             //TODO exception
         }
+
+
     }
 }
