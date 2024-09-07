@@ -1,7 +1,6 @@
 package org.nastya.model;
 
 import jakarta.persistence.*;
-import org.hibernate.id.GUIDGenerator;
 
 import java.util.Date;
 
