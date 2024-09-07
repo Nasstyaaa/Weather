@@ -36,8 +36,7 @@ public class RegistrationServlet extends HttpServlet {
             //TODO exception
         }
 
-        User user = new User(login, password);
-        if (userDAO.find(user).isPresent()){
+        if (userDAO.find(login).isPresent()){
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
             //TODO exception
         }

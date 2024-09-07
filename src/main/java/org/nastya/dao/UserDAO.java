@@ -18,12 +18,12 @@ public class UserDAO {
         }
     }
 
-    public Optional<User> find(User user){
+    public Optional<User> find(String login){
         try(Session session = DataListenerUtil.getSession()) {
             session.beginTransaction();
 
             User foundUser = session.createSelectionQuery("FROM User WHERE login = :login", User.class)
-                    .setParameter("login", user.getLogin())
+                    .setParameter("login", login)
                     .uniqueResult();
 
             session.getTransaction().commit();

@@ -37,11 +37,10 @@ public class LogInServlet extends HttpServlet {
             //TODO exception
         }
 
-        User user = new User(login, password);
-        if (userDAO.find(user).isEmpty()) {
+
+        if (userDAO.find(login).isEmpty()) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            resp.sendRedirect("/registration");
-            return;
+            //TODO exception
         }
 
         //TODO Sessions
