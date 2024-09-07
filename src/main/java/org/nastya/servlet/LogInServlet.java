@@ -17,6 +17,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/")
 public class LogInServlet extends HttpServlet {
     private final UserDAO userDAO = new UserDAO();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -32,15 +33,16 @@ public class LogInServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (login.isBlank() || password.isBlank()){
+        if (login.isBlank() || password.isBlank()) {
             //TODO exception
         }
 
         User user = new User(login, password);
-        try {
-            userDAO.find(user);
+
+        if (userDAO.find(user).isPresent()) {
+            //TODO Sessions
             resp.sendRedirect("/main");
-        }catch (NoResultException e){
+        } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             resp.sendRedirect("/registration");
         }

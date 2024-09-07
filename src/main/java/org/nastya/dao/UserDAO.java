@@ -24,7 +24,7 @@ public class UserDAO {
 
             User foundUser = session.createSelectionQuery("FROM User WHERE login = :login", User.class)
                     .setParameter("login", user.getLogin())
-                    .getSingleResult();
+                    .uniqueResult();
 
             session.getTransaction().commit();
             return Optional.ofNullable(foundUser);
