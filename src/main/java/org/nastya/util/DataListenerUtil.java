@@ -20,6 +20,8 @@ public class DataListenerUtil implements ServletContextListener{
                 .addAnnotatedClass(Session.class)
                 .addAnnotatedClass(Location.class);
         sessionFactory = configuration.buildSessionFactory();
+
+        SessionManagerUtil sessionManagerUtil = new SessionManagerUtil();
     }
 
     public synchronized static org.hibernate.Session getSession(){

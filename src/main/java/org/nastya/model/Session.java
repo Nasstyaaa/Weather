@@ -1,19 +1,28 @@
 package org.nastya.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
+@Table (name = "sessions",
+        indexes = @Index(columnList = "userId, expires_at"))
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Session {
     @Id
     @Column(name = "session_id")
-    private String id;
+    private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @Column(name = "expires_at")
-    private Date expiresAt;
+    private LocalDateTime expiresAt;
 }

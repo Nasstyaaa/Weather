@@ -2,6 +2,7 @@ package org.nastya.servlet;
 
 
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @WebServlet(urlPatterns = "/")
 public class LogInServlet extends HttpServlet {
@@ -40,8 +42,10 @@ public class LogInServlet extends HttpServlet {
             if (login.isBlank() || password.isBlank()) {
                 throw new MissingFormFieldException();
             }
-            logInService.login(new UserDTORequest(login, password));
+            Cookie cookie = logInService.login(new UserDTORequest(login, password));
+
             resp.setStatus(HttpServletResponse.SC_OK);
+            resp.addHeader("Set-Cookie", cookie.toString());
             resp.sendRedirect("/main");
 
         } catch (MissingFormFieldException | InvalidPasswordException e) {
