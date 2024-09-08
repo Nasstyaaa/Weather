@@ -41,7 +41,7 @@ public class RegistrationServlet extends HttpServlet {
             }
             registrationService.register(new UserDTORequest(login, password));
             resp.setStatus(HttpServletResponse.SC_OK);
-            resp.sendRedirect("/login");
+            resp.sendRedirect("/");
 
         } catch (UserAlreadyExistsException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_CONFLICT);

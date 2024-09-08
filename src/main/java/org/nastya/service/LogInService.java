@@ -15,6 +15,7 @@ public class LogInService {
         User user = userDAO.find(userDTORequest.getLogin()).orElseThrow(UserNotFoundException::new);
         if (PasswordUtil.compare(userDTORequest.getPassword(), user.getPassword())){
             //TODO Sessions
+            return;
         }
         throw new InvalidPasswordException();
     }

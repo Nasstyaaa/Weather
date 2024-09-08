@@ -8,14 +8,13 @@ import java.util.Optional;
 
 public class UserDAO {
 
-    public User save(User user) {
+    public void save(User user) {
         try (Session session = DataListenerUtil.getSession()) {
             session.beginTransaction();
 
             session.persist(user);
 
             session.getTransaction().commit();
-            return user;
         }
     }
 
