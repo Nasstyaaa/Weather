@@ -2,14 +2,14 @@ package org.nastya.dao;
 
 import org.hibernate.Session;
 import org.nastya.model.User;
-import org.nastya.util.DataListenerUtil;
+import listener.DataListener;
 
 import java.util.Optional;
 
 public class UserDAO {
 
     public void save(User user) {
-        try (Session session = DataListenerUtil.getSession()) {
+        try (Session session = DataListener.getSession()) {
             session.beginTransaction();
 
             session.persist(user);
@@ -19,7 +19,7 @@ public class UserDAO {
     }
 
     public Optional<User> findByLogin(String login){
-        try(Session session = DataListenerUtil.getSession()) {
+        try(Session session = DataListener.getSession()) {
             session.beginTransaction();
 
             User foundUser = session.createSelectionQuery("FROM User WHERE login = :login", User.class)

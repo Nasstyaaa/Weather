@@ -1,4 +1,4 @@
-package org.nastya.util;
+package listener;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -10,8 +10,8 @@ import org.nastya.model.Session;
 import org.nastya.model.User;
 
 @WebListener
-public class DataListenerUtil implements ServletContextListener{
-    public static SessionFactory sessionFactory;
+public class DataListener implements ServletContextListener{
+    private static SessionFactory sessionFactory;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -20,8 +20,6 @@ public class DataListenerUtil implements ServletContextListener{
                 .addAnnotatedClass(Session.class)
                 .addAnnotatedClass(Location.class);
         sessionFactory = configuration.buildSessionFactory();
-
-        SessionManagerUtil sessionManagerUtil = new SessionManagerUtil();
     }
 
     public synchronized static org.hibernate.Session getSession(){

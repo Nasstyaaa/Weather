@@ -1,7 +1,7 @@
 package org.nastya.dao;
 
 import org.hibernate.Session;
-import org.nastya.util.DataListenerUtil;
+import listener.DataListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.UUID;
 public class SessionDAO {
 
     public void save(org.nastya.model.Session userSession) {
-        try (Session session = DataListenerUtil.getSession()) {
+        try (Session session = DataListener.getSession()) {
             session.beginTransaction();
 
             session.persist(userSession);
@@ -21,7 +21,7 @@ public class SessionDAO {
     }
 
     public void delete(org.nastya.model.Session userSession) {
-        try (Session session = DataListenerUtil.getSession()) {
+        try (Session session = DataListener.getSession()) {
             session.beginTransaction();
 
             session.remove(userSession);
@@ -31,7 +31,7 @@ public class SessionDAO {
     }
 
     public List<org.nastya.model.Session> findAllExpired() {
-        try (Session session = DataListenerUtil.getSession()) {
+        try (Session session = DataListener.getSession()) {
             session.beginTransaction();
 
             List<org.nastya.model.Session> sessionList = session.createSelectionQuery(
@@ -46,7 +46,7 @@ public class SessionDAO {
 
 
     public Optional<org.nastya.model.Session> findById(UUID id) {
-        try (Session session = DataListenerUtil.getSession()) {
+        try (Session session = DataListener.getSession()) {
             session.beginTransaction();
 
             org.nastya.model.Session userSession = session.createSelectionQuery(
