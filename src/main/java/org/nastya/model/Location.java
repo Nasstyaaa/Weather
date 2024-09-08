@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "lacations",
-        indexes = @Index(columnList = "user, name, latitude, longitude"))
+        indexes = @Index(columnList = "userId, name, latitude, longitude"))
 public class Location {
 
     @Id

@@ -2,12 +2,14 @@ package org.nastya.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = "users",
         indexes = @Index(columnList = "login, password"))
 @Data
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -17,4 +19,9 @@ public class User {
     private String login;
 
     private String password;
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 }
