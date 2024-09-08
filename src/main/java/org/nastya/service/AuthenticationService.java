@@ -6,6 +6,7 @@ import org.nastya.dao.SessionDAO;
 import org.nastya.dao.UserDAO;
 import org.nastya.dto.UserDTORequest;
 import org.nastya.exception.InvalidPasswordException;
+import org.nastya.exception.UserAlreadyExistsException;
 import org.nastya.exception.UserNotFoundException;
 import org.nastya.model.Session;
 import org.nastya.model.User;
@@ -13,13 +14,13 @@ import org.nastya.model.User;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class LogInService {
+public class AuthenticationService {
+    private final UserDAO userDAO = new UserDAO();
+    private final SessionDAO sessionDAO = new SessionDAO();
 
     public Cookie login(UserDTORequest userDTORequest){
-        UserDAO userDAO = new UserDAO();
-        SessionDAO sessionDAO = new SessionDAO();
-
-        User user = userDAO.find(userDTORequest.getLogin()).orElseThrow(UserNotFoundException::new);
+        User user = userDAO.findByLogin(userDTORequest.getLogin())
+                .orElseThrow(UserNotFoundException::new);
 
         if (BCrypt.checkpw(userDTORequest.getPassword(), user.getPassword())){
             UUID id = UUID.randomUUID();
@@ -36,5 +37,16 @@ public class LogInService {
             return cookie;
         }
         throw new InvalidPasswordException();
+    }
+
+
+    public void register(UserDTORequest userDTORequest){
+        if (userDAO.findByLogin(userDTORequest.getLogin()).isPresent()){
+            throw new UserAlreadyExistsException();
+        }
+
+        String password = BCrypt.hashpw(userDTORequest.getPassword(), BCrypt.gensalt(12));
+        User user = new User(userDTORequest.getLogin(), password);
+        userDAO.save(user);
     }
 }

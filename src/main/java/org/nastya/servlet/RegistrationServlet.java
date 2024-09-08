@@ -9,7 +9,7 @@ import org.nastya.config.ThymeleafConfig;
 import org.nastya.dto.UserDTORequest;
 import org.nastya.exception.MissingFormFieldException;
 import org.nastya.exception.UserAlreadyExistsException;
-import org.nastya.service.RegistrationService;
+import org.nastya.service.AuthenticationService;
 import org.nastya.util.ResponseUtil;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
-    private final RegistrationService registrationService = new RegistrationService();
+    private final AuthenticationService authenticationService = new AuthenticationService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -39,7 +39,7 @@ public class RegistrationServlet extends HttpServlet {
             if (login.isBlank() || password.isBlank()) {
                 throw new MissingFormFieldException();
             }
-            registrationService.register(new UserDTORequest(login, password));
+            authenticationService.register(new UserDTORequest(login, password));
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.sendRedirect("/");
 

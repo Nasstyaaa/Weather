@@ -18,7 +18,7 @@ public class UserDAO {
         }
     }
 
-    public Optional<User> find(String login){
+    public Optional<User> findByLogin(String login){
         try(Session session = DataListenerUtil.getSession()) {
             session.beginTransaction();
 

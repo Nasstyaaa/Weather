@@ -45,7 +45,7 @@ public class SessionDAO {
     }
 
 
-    public Optional<org.nastya.model.Session> find(UUID id) {
+    public Optional<org.nastya.model.Session> findById(UUID id) {
         try (Session session = DataListenerUtil.getSession()) {
             session.beginTransaction();
 

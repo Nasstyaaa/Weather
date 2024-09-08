@@ -11,17 +11,16 @@ import org.nastya.dto.UserDTORequest;
 import org.nastya.exception.InvalidPasswordException;
 import org.nastya.exception.MissingFormFieldException;
 import org.nastya.exception.UserNotFoundException;
-import org.nastya.service.LogInService;
+import org.nastya.service.AuthenticationService;
 import org.nastya.util.ResponseUtil;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @WebServlet(urlPatterns = "/")
 public class LogInServlet extends HttpServlet {
-    private final LogInService logInService = new LogInService();
+    private final AuthenticationService authenticationService = new AuthenticationService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -42,7 +41,7 @@ public class LogInServlet extends HttpServlet {
             if (login.isBlank() || password.isBlank()) {
                 throw new MissingFormFieldException();
             }
-            Cookie cookie = logInService.login(new UserDTORequest(login, password));
+            Cookie cookie = authenticationService.login(new UserDTORequest(login, password));
 
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.addHeader("Set-Cookie", cookie.toString());
