@@ -2,7 +2,7 @@ package org.nastya.dao;
 
 import org.hibernate.Session;
 import org.nastya.model.User;
-import listener.DataListener;
+import org.nastya.listener.DataListener;
 
 import java.util.Optional;
 
