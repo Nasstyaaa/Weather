@@ -44,8 +44,8 @@ public class LogInServlet extends HttpServlet {
             Cookie cookie = authenticationService.login(new UserDTORequest(login, password));
 
             resp.setStatus(HttpServletResponse.SC_OK);
-            resp.addHeader("Set-Cookie", cookie.toString());
-            resp.sendRedirect("/main");
+            resp.addCookie(cookie);
+            resp.sendRedirect(req.getContextPath()+"main");
 
         } catch (MissingFormFieldException | InvalidPasswordException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST);
