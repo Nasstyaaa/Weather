@@ -23,6 +23,9 @@ dependencies {
     implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
     implementation("org.postgresql:postgresql:42.7.4")
     implementation("org.mindrot:jbcrypt:0.4")
+    testImplementation("com.h2database:h2:2.3.232")
+    testImplementation("io.quarkus:quarkus-junit5:3.14.0")
+
 }
 
 tasks.withType<War> {
