@@ -10,15 +10,20 @@ import org.nastya.model.Session;
 import org.nastya.model.User;
 
 @WebListener
-public class DataListener implements ServletContextListener{
+public class DataListener {
     private static SessionFactory sessionFactory;
 
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        Configuration configuration = new Configuration()
-                .addAnnotatedClass(User.class)
-                .addAnnotatedClass(Session.class)
-                .addAnnotatedClass(Location.class);
+//    @Override
+//    public void contextInitialized(ServletContextEvent sce) {
+//        Configuration configuration = new Configuration()
+//                .addAnnotatedClass(User.class)
+//                .addAnnotatedClass(Session.class)
+//                .addAnnotatedClass(Location.class);
+//        sessionFactory = configuration.buildSessionFactory();
+//    }
+
+
+    public static void configure(Configuration configuration){
         sessionFactory = configuration.buildSessionFactory();
     }
 
