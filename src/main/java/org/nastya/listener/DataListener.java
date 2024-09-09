@@ -3,26 +3,13 @@ package org.nastya.listener;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.nastya.model.Location;
-import org.nastya.model.Session;
-import org.nastya.model.User;
+import org.nastya.util.DBConfigurationUtil;
 
 @WebListener
-public class DataListener implements ServletContextListener{
-    private static SessionFactory sessionFactory;
-
+public class DataListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        Configuration configuration = new Configuration()
-                .addAnnotatedClass(User.class)
-                .addAnnotatedClass(Session.class)
-                .addAnnotatedClass(Location.class);
-        sessionFactory = configuration.buildSessionFactory();
-    }
-
-    public synchronized static org.hibernate.Session getSession(){
-        return sessionFactory.openSession();
+        DBConfigurationUtil.configure();
     }
 }
+

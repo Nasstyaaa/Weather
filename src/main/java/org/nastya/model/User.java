@@ -1,6 +1,7 @@
 package org.nastya.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
         indexes = @Index(columnList = "login, password"))
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id

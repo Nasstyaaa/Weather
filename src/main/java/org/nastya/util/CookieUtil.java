@@ -13,7 +13,7 @@ public class CookieUtil {
         SessionDAO sessionDAO = new SessionDAO();
 
         Cookie cookie = Arrays.stream(cookies)
-                .filter(c -> "SessionId".equals(c.getName()))
+                .filter(c -> c.getName().equals("SessionId"))
                 .findAny()
                 .orElseThrow(UserNotFoundException::new);
 
