@@ -51,15 +51,13 @@ public class MainPageServlet extends HttpServlet {
             }
 
             LocationResponseDTO locationResponseDTO = weatherAPIService.findLocation(location);
-            context.setVariable("location", locationResponseDTO);
+            context.setVariable("locationResponseDTO", locationResponseDTO);
             engine.process("main", context, resp.getWriter());
 
         } catch (MissingFormFieldException | LocationNotFoundException e) {
-            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST);
-        } catch (URISyntaxException e) {
-            //TODO ?
-        } catch (InterruptedException e) {
-            //TODO ?
+            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/main");
+        } catch (URISyntaxException | InterruptedException e) {
+            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_GATEWAY, "/main");
         }
     }
 }

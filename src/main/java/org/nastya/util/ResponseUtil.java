@@ -10,13 +10,13 @@ import java.io.IOException;
 
 public class ResponseUtil {
 
-    public static void create(HttpServletRequest req, HttpServletResponse resp, RuntimeException e, int status)
+    public static void create(HttpServletRequest req, HttpServletResponse resp, Exception e, int status, String page)
             throws IOException {
         resp.setStatus(status);
         TemplateEngine engine = ThymeleafConfig.buildTemplateEngine(req.getServletContext());
         WebContext context = ThymeleafConfig.buildWebContext(req, resp, req.getServletContext());
         context.setVariable("message", e.getMessage());
-        engine.process("registration", context, resp.getWriter());
+        engine.process(page, context, resp.getWriter());
     }
 
 }

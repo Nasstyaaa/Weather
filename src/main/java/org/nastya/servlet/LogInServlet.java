@@ -48,9 +48,9 @@ public class LogInServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() +"main");
 
         } catch (MissingFormFieldException | InvalidPasswordException e) {
-            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST);
+            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/login");
         } catch (UserNotFoundException e) {
-            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_NOT_FOUND);
+            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_NOT_FOUND, "/login");
         }
     }
 }

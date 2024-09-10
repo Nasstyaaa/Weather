@@ -44,9 +44,9 @@ public class RegistrationServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/");
 
         } catch (UserAlreadyExistsException e) {
-            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_CONFLICT);
+            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_CONFLICT, "/registration");
         } catch (MissingFormFieldException e) {
-            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST);
+            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/registration");
         }
     }
 }

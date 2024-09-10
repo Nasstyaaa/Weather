@@ -14,7 +14,7 @@ import java.net.http.HttpResponse;
 
 public class WeatherAPIService {
 
-    public LocationResponseDTO findLocation(String location) throws IOException, InterruptedException, URISyntaxException {
+    public LocationResponseDTO findLocation(String location) throws IOException, URISyntaxException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("http://api.weatherapi.com/v1/current.json?" +
                         "q=" + location + "&key=bc2c6e79b7594e5eab475758241009"))
