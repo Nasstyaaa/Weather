@@ -49,9 +49,18 @@ public class MainPageServlet extends HttpServlet {
         Session session = authenticationService.checkLogin(req.getCookies());
         req.setAttribute("user", session.getUser());
 
-        String location = req.getParameter("location");
+
+        String action = req.getParameter("action");
+        if (action.equals("logout")) {
+            authenticationService.logout(session);
+            resp.sendRedirect("/");
+            return;
+        } else if (action.equals("add")) {
+
+        }
 
         try {
+            String location = req.getParameter("location");
             if (location.isBlank()) {
                 throw new MissingFormFieldException();
             }

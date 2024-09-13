@@ -51,6 +51,9 @@ public class AuthenticationService {
         userDAO.save(user);
     }
 
+    public void logout(Session session){
+        sessionDAO.delete(session);
+    }
 
     public Session checkLogin(Cookie[] cookies){
         SessionDAO sessionDAO = new SessionDAO();
