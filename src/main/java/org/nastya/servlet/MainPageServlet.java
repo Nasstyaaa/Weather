@@ -10,8 +10,9 @@ import org.nastya.exception.InternalServerError;
 import org.nastya.exception.LocationNotFoundException;
 import org.nastya.exception.MissingFormFieldException;
 import org.nastya.exception.UserNotFoundException;
+import org.nastya.model.Session;
+import org.nastya.service.AuthenticationService;
 import org.nastya.service.WeatherAPIService;
-import org.nastya.util.CookieUtil;
 import org.nastya.util.ResponseUtil;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -21,6 +22,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/main")
 public class MainPageServlet extends HttpServlet {
     private final WeatherAPIService weatherAPIService = new WeatherAPIService();
+    private final AuthenticationService authenticationService = new AuthenticationService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -29,7 +31,8 @@ public class MainPageServlet extends HttpServlet {
         WebContext context = ThymeleafConfig.buildWebContext(req, resp, req.getServletContext());
 
         try {
-            CookieUtil.check(req.getCookies());
+            Session session = authenticationService.checkLogin(req.getCookies());
+            context.setVariable("user", session.getUser());
             engine.process("main", context, resp.getWriter());
         } catch (UserNotFoundException e) {
             resp.sendRedirect("/");
@@ -43,6 +46,9 @@ public class MainPageServlet extends HttpServlet {
         TemplateEngine engine = ThymeleafConfig.buildTemplateEngine(req.getServletContext());
         WebContext context = ThymeleafConfig.buildWebContext(req, resp, req.getServletContext());
 
+        Session session = authenticationService.checkLogin(req.getCookies());
+        req.setAttribute("user", session.getUser());
+
         String location = req.getParameter("location");
 
         try {
@@ -52,6 +58,7 @@ public class MainPageServlet extends HttpServlet {
 
             LocationResponseDTO locationResponseDTO = weatherAPIService.findLocation(location);
             context.setVariable("locationResponseDTO", locationResponseDTO);
+
             engine.process("main", context, resp.getWriter());
 
         } catch (MissingFormFieldException | LocationNotFoundException e) {

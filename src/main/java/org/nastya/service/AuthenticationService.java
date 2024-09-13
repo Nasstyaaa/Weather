@@ -12,6 +12,7 @@ import org.nastya.model.Session;
 import org.nastya.model.User;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class AuthenticationService {
@@ -48,5 +49,17 @@ public class AuthenticationService {
         String password = BCrypt.hashpw(userDTORequest.getPassword(), BCrypt.gensalt(12));
         User user = new User(userDTORequest.getLogin(), password);
         userDAO.save(user);
+    }
+
+
+    public Session checkLogin(Cookie[] cookies){
+        SessionDAO sessionDAO = new SessionDAO();
+
+        Cookie cookie = Arrays.stream(cookies)
+                .filter(c -> c.getName().equals("SessionId"))
+                .findAny()
+                .orElseThrow(UserNotFoundException::new);
+
+        return sessionDAO.findById(UUID.fromString(cookie.getValue())).orElseThrow(UserNotFoundException::new);
     }
 }
