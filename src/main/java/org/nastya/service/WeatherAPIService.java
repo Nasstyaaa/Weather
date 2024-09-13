@@ -2,11 +2,10 @@ package org.nastya.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.nastya.dto.LocationResponseDTO;
+import org.nastya.dto.LocationResponseApiDTO;
 import org.nastya.exception.InternalServerError;
 import org.nastya.exception.LocationNotFoundException;
 
-import javax.management.RuntimeOperationsException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,7 +15,7 @@ import java.net.http.HttpResponse;
 
 public class WeatherAPIService {
 
-    public LocationResponseDTO findLocation(String location) {
+    public LocationResponseApiDTO findLocation(String location) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://api.weatherapi.com/v1/current.json?" +
@@ -27,11 +26,11 @@ public class WeatherAPIService {
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
             String json = response.body();
-            LocationResponseDTO locationResponseDTO = null;
+            LocationResponseApiDTO locationResponseApiDTO = null;
             if (response.statusCode() == 200) {
                 JsonNode jsonNode = new ObjectMapper().readTree(json);
 
-                locationResponseDTO = new LocationResponseDTO(
+                locationResponseApiDTO = new LocationResponseApiDTO(
                         jsonNode.get("location").get("name").asText(),
                         jsonNode.get("location").get("lat").asText(),
                         jsonNode.get("location").get("lon").asText(),
@@ -41,7 +40,7 @@ public class WeatherAPIService {
                 throw new LocationNotFoundException();
             }
 
-            return locationResponseDTO;
+            return locationResponseApiDTO;
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new InternalServerError();
         }

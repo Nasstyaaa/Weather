@@ -5,24 +5,28 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.nastya.config.ThymeleafConfig;
-import org.nastya.dto.LocationResponseDTO;
+import org.nastya.dto.LocationDTO;
+import org.nastya.dto.LocationResponseApiDTO;
 import org.nastya.exception.InternalServerError;
 import org.nastya.exception.LocationNotFoundException;
 import org.nastya.exception.MissingFormFieldException;
 import org.nastya.exception.UserNotFoundException;
 import org.nastya.model.Session;
 import org.nastya.service.AuthenticationService;
+import org.nastya.service.LocationService;
 import org.nastya.service.WeatherAPIService;
 import org.nastya.util.ResponseUtil;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @WebServlet(urlPatterns = "/main")
 public class MainPageServlet extends HttpServlet {
     private final WeatherAPIService weatherAPIService = new WeatherAPIService();
     private final AuthenticationService authenticationService = new AuthenticationService();
+    private final LocationService locationService = new LocationService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -55,8 +59,17 @@ public class MainPageServlet extends HttpServlet {
             authenticationService.logout(session);
             resp.sendRedirect("/");
             return;
-        } else if (action.equals("add")) {
 
+        } else if (action.equals("add")) {
+            String name = req.getParameter("name");
+            BigDecimal latitude = new BigDecimal(req.getParameter("latitude"));
+            BigDecimal longitude = new BigDecimal(req.getParameter("longitude"));
+
+            LocationDTO locationDTO = new LocationDTO(name, session.getUser(), latitude, longitude);
+
+            locationService.process(locationDTO);
+            resp.sendRedirect("/home");
+            return;
         }
 
         try {
@@ -65,8 +78,8 @@ public class MainPageServlet extends HttpServlet {
                 throw new MissingFormFieldException();
             }
 
-            LocationResponseDTO locationResponseDTO = weatherAPIService.findLocation(location);
-            context.setVariable("locationResponseDTO", locationResponseDTO);
+            LocationResponseApiDTO locationResponseApiDTO = weatherAPIService.findLocation(location);
+            context.setVariable("locationResponseApiDTO", locationResponseApiDTO);
 
             engine.process("main", context, resp.getWriter());
 

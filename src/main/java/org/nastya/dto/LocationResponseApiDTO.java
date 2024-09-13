@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocationResponseDTO {
+public class LocationResponseApiDTO {
 
     private String name;
     private String latitude;

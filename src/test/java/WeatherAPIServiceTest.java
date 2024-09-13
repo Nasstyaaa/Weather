@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Test;
-import org.nastya.dto.LocationResponseDTO;
+import org.nastya.dto.LocationResponseApiDTO;
 import org.nastya.exception.InternalServerError;
 import org.nastya.exception.LocationNotFoundException;
 import org.nastya.service.WeatherAPIService;
@@ -13,18 +13,18 @@ public class WeatherAPIServiceTest {
     public void findLocation_nameOfExistingLocation_shouldFindLocation() {
         String location = "Paris";
 
-        LocationResponseDTO locationResponseDTO = weatherAPIService.findLocation(location);
+        LocationResponseApiDTO locationResponseApiDTO = weatherAPIService.findLocation(location);
 
-        assertEquals(location, locationResponseDTO.getName());
+        assertEquals(location, locationResponseApiDTO.getName());
     }
 
     @Test
     public void findLocation_coordinatesOfExistingLocation_shouldFindLocation() {
         String location = "48.8567,2.3508";
 
-        LocationResponseDTO locationResponseDTO = weatherAPIService.findLocation(location);
+        LocationResponseApiDTO locationResponseApiDTO = weatherAPIService.findLocation(location);
 
-        assertEquals("Paris", locationResponseDTO.getName());
+        assertEquals("Paris", locationResponseApiDTO.getName());
     }
 
     @Test

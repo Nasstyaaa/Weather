@@ -2,6 +2,7 @@ package org.nastya.dao;
 
 import org.hibernate.Session;
 import org.nastya.model.Location;
+import org.nastya.model.User;
 import org.nastya.util.DBConfigurationUtil;
 
 import java.util.Optional;
@@ -28,12 +29,13 @@ public class LocationDAO {
         }
     }
 
-    public Optional<Location> findByName(String name) {
+    public Optional<Location> findByNameAndUser(String name, User user) {
         try (Session session = DBConfigurationUtil.getSession()) {
             session.beginTransaction();
 
-            Location location = session.createSelectionQuery("FROM Location WHERE name = :name", Location.class)
+            Location location = session.createSelectionQuery("FROM Location WHERE name = :name and user.id = :user", Location.class)
                     .setParameter("name", name)
+                    .setParameter("user", user.getId())
                     .uniqueResult();
 
             session.getTransaction().commit();
