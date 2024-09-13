@@ -108,6 +108,12 @@
             fill: #d47799;
             animation-delay: 6s;
         }
+        .alert {
+            margin-left: 10%;
+            width: 32%;
+            height: 5%;
+            font-size: 100%;
+        }
     </style>
 </head>
 <body>
@@ -123,6 +129,11 @@
         <div>Password</div>
         <input type="password" name="password" placeholder="Password" required>
     </div>
+
+    <div th:if="${message != null}" class="alert alert-danger container d-flex align-items-center justify-content-center">
+        <div th:text="${message}" ></div>
+    </div>
+
     <button type="submit">SIGN UP</button>
     <span class="reg">Already have an account? <a href="/" style="color: #D885A3">Log in</a></span>
 
