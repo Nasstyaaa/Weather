@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.nastya.config.ThymeleafConfig;
 import org.nastya.dto.LocationResponseDTO;
+import org.nastya.exception.InternalServerError;
 import org.nastya.exception.LocationNotFoundException;
 import org.nastya.exception.MissingFormFieldException;
 import org.nastya.exception.UserNotFoundException;
@@ -16,7 +17,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 @WebServlet(urlPatterns = "/main")
 public class MainPageServlet extends HttpServlet {
@@ -56,7 +56,7 @@ public class MainPageServlet extends HttpServlet {
 
         } catch (MissingFormFieldException | LocationNotFoundException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/main");
-        } catch (URISyntaxException | InterruptedException e) {
+        } catch (InternalServerError e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_GATEWAY, "/main");
         }
     }
