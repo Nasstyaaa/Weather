@@ -2,9 +2,11 @@ package org.nastya.service;
 
 import org.nastya.dao.LocationDAO;
 import org.nastya.dto.LocationDTO;
+import org.nastya.dto.LocationResponseApiDTO;
 import org.nastya.model.Location;
 import org.nastya.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +26,15 @@ public class LocationService {
         }
     }
 
-    public List<Location> findUserLocations(User user){
-        return locationDAO.findAllByUser(user);
+    public List<LocationResponseApiDTO> findUserLocations(User user) { //TODO не видит с пробелами
+        WeatherAPIService weatherAPIService = new WeatherAPIService();
+        List<LocationResponseApiDTO> locations = new ArrayList<>();
+
+        locationDAO.findAllByUser(user).forEach(location -> {
+            LocationResponseApiDTO locationDto = weatherAPIService.findLocation(location.getName());
+            locations.add(locationDto);
+        });
+
+        return locations;
     }
 }

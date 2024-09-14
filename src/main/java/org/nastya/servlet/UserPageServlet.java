@@ -2,13 +2,12 @@ package org.nastya.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.nastya.config.ThymeleafConfig;
+import org.nastya.dto.LocationResponseApiDTO;
 import org.nastya.exception.UserNotFoundException;
-import org.nastya.model.Location;
 import org.nastya.model.Session;
 import org.nastya.service.AuthenticationService;
 import org.nastya.service.LocationService;
@@ -32,7 +31,7 @@ public class UserPageServlet extends HttpServlet {
             Session session = authenticationService.checkLogin(req.getCookies());
             context.setVariable("user", session.getUser());
 
-            List<Location> locations = locationService.findUserLocations(session.getUser());
+            List<LocationResponseApiDTO> locations = locationService.findUserLocations(session.getUser());
             System.out.println(locations.size());
             context.setVariable("locations", locations);
 
