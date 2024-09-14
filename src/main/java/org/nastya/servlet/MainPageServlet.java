@@ -39,7 +39,7 @@ public class MainPageServlet extends HttpServlet {
             context.setVariable("user", session.getUser());
             engine.process("main", context, resp.getWriter());
         } catch (UserNotFoundException e) {
-            resp.sendRedirect("/");
+            resp.sendRedirect(req.getContextPath() + "/");
         }
     }
 
@@ -57,7 +57,7 @@ public class MainPageServlet extends HttpServlet {
         String action = req.getParameter("action");
         if (action.equals("logout")) {
             authenticationService.logout(session);
-            resp.sendRedirect("/");
+            resp.sendRedirect(req.getContextPath() + "/");
             return;
 
         } else if (action.equals("add")) {
@@ -68,7 +68,7 @@ public class MainPageServlet extends HttpServlet {
             LocationDTO locationDTO = new LocationDTO(name, session.getUser(), latitude, longitude);
 
             locationService.process(locationDTO);
-            resp.sendRedirect("/home");
+            resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }
 
