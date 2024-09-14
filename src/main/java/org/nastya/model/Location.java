@@ -2,6 +2,7 @@ package org.nastya.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "locations",
         indexes = @Index(columnList = "userId, name, latitude, longitude"))
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Location {

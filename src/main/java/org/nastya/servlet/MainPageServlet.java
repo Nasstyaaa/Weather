@@ -67,7 +67,7 @@ public class MainPageServlet extends HttpServlet {
 
             LocationDTO locationDTO = new LocationDTO(name, session.getUser(), latitude, longitude);
 
-            locationService.process(locationDTO);
+            locationService.updateUserLocations(locationDTO);
             resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }
