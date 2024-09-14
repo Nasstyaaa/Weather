@@ -5,6 +5,7 @@ import org.nastya.model.Location;
 import org.nastya.model.User;
 import org.nastya.util.DBConfigurationUtil;
 
+import java.util.List;
 import java.util.Optional;
 
 public class LocationDAO {
@@ -43,4 +44,16 @@ public class LocationDAO {
         }
     }
 
+    public List<Location> findAllByUser(User user){
+        try (Session session = DBConfigurationUtil.getSession()) {
+            session.beginTransaction();
+
+            List<Location> locations = session.createSelectionQuery("FROM Location WHERE user.id = :user", Location.class)
+                    .setParameter("user", user.getId())
+                    .getResultList();
+
+            session.getTransaction().commit();
+            return locations;
+        }
+    }
 }
