@@ -35,7 +35,8 @@ public class WeatherAPIService {
                         jsonNode.get("location").get("name").asText(),
                         jsonNode.get("location").get("lat").asText(),
                         jsonNode.get("location").get("lon").asText(),
-                        jsonNode.get("current").get("temp_c").asText());
+                        jsonNode.get("current").get("temp_c").asText(),
+                        jsonNode.get("current").get("condition").get("icon").asText());
 
             } else if (response.statusCode() == 400) {
                 throw new LocationNotFoundException();

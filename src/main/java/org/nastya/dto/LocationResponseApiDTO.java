@@ -13,4 +13,5 @@ public class LocationResponseApiDTO {
     private String latitude;
     private String longitude;
     private String temp_c;
+    private String icon;
 }

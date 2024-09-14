@@ -132,6 +132,10 @@
         color: #FF1493;
     }
 
+    .location-icon {
+        width: 40%;
+        height: 35%;
+    }
 </style>
 <body>
     <div th:if="${message != null}" class="alert alert-danger" role="alert">
@@ -154,7 +158,10 @@
     <form th:action="@{/main}" th:method="post">
         <div th:if="${locationResponseApiDTO != null}" class="location-cards">
                 <div class="location-card">
-                    <h3 class="location-name" th:text="${locationResponseApiDTO.name}"></h3>
+                    <div class="container d-flex align-items-center mb-6">
+                        <h3 class="location-name" th:text="${locationResponseApiDTO.name}"></h3>
+                        <img th:src="${locationResponseApiDTO.icon}" alt="Location Icon" class="location-icon" />
+                    </div>
                     <p class="location-info">
                         Latitude: <span th:text="${locationResponseApiDTO.latitude}"></span><br>
                         Longitude: <span th:text="${locationResponseApiDTO.longitude}"></span><br>
