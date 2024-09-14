@@ -32,7 +32,6 @@ public class UserPageServlet extends HttpServlet {
             context.setVariable("user", session.getUser());
 
             List<LocationResponseApiDTO> locations = locationService.findUserLocations(session.getUser());
-            System.out.println(locations.size());
             context.setVariable("locations", locations);
 
             engine.process("home", context, resp.getWriter());

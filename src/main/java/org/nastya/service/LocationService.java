@@ -26,7 +26,7 @@ public class LocationService {
         }
     }
 
-    public List<LocationResponseApiDTO> findUserLocations(User user) { //TODO не видит с пробелами
+    public List<LocationResponseApiDTO> findUserLocations(User user) {
         WeatherAPIService weatherAPIService = new WeatherAPIService();
         List<LocationResponseApiDTO> locations = new ArrayList<>();
 

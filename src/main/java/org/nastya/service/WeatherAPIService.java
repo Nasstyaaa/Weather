@@ -16,10 +16,11 @@ import java.net.http.HttpResponse;
 public class WeatherAPIService {
 
     public LocationResponseApiDTO findLocation(String location) {
+        String locationName = location.replace(" ", "%20");
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://api.weatherapi.com/v1/current.json?" +
-                            "q=" + location + "&key=bc2c6e79b7594e5eab475758241009"))
+                            "q=" + locationName + "&key=bc2c6e79b7594e5eab475758241009"))
                     .GET()
                     .build();
 
