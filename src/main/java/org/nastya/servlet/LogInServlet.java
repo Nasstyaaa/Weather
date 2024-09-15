@@ -6,7 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.nastya.dto.UserDTORequest;
-import org.nastya.exception.IncorrectLoginInformation;
+import org.nastya.exception.IncorrectLoginInformationException;
 import org.nastya.exception.MissingFormFieldException;
 import org.nastya.service.AuthenticationService;
 import org.nastya.util.ResponseUtil;
@@ -36,12 +36,12 @@ public class LogInServlet extends BaseServlet {
             Cookie cookie = authenticationService.login(new UserDTORequest(login, password));
 
             resp.addCookie(cookie);
-            resp.sendRedirect(req.getContextPath() +"search");
+            resp.sendRedirect(req.getContextPath() +"/home");
 
         } catch (MissingFormFieldException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/login");
 
-        } catch (IncorrectLoginInformation e) {
+        } catch (IncorrectLoginInformationException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_NOT_FOUND, "/login");
         }
     }

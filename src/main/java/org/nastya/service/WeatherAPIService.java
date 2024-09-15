@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.nastya.dto.DayDTO;
 import org.nastya.dto.LocationForecastDayDTO;
 import org.nastya.dto.LocationResponseApiDTO;
-import org.nastya.exception.InternalServerError;
+import org.nastya.exception.InternalServerException;
 import org.nastya.exception.LocationNotFoundException;
 
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class WeatherAPIService {
             return locationResponseApiDTO;
 
         } catch (IOException | URISyntaxException | InterruptedException e) {
-            throw new InternalServerError();
+            throw new InternalServerException();
         }
     }
 
@@ -94,7 +94,7 @@ public class WeatherAPIService {
             return new LocationForecastDayDTO(locationResponseApiDTO, dayDTOList);
 
         } catch (IOException | URISyntaxException | InterruptedException e) {
-            throw new InternalServerError();
+            throw new InternalServerException();
         }
     }
 }

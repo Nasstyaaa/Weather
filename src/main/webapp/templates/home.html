@@ -157,7 +157,7 @@
     </div>
 
     <header>
-        <a th:href="@{/search}" style="text-decoration: none"><h1>Weather-app</h1></a>
+        <h1>Weather-app</h1>
         <form th:action="@{/logout}" th:method="post" class="log-form">
             <button>Log Out</button>
         </form>
@@ -168,20 +168,17 @@
     </div>
 
 
-        <form th:action="@{/home}" th:method="post" class="input-form container d-flex align-items-center">
+        <form th:action="@{/search}" th:method="get" class="input-form container d-flex align-items-center">
             <input type="text" placeholder="Paris" required name="location">
-            <button type="submit" class="find" value="find" name="action">FIND</button>
-            <button type="button" class="find"><a th:href="@{'/home'}" th:method="${'get'}" style="text-decoration: none; color: ghostwhite">CLEAR</a></button>
+            <button type="submit" class="find">FIND</button>
         </form>
 
 
     <div class="location-cards">
         <th:block th:if="${#lists.isEmpty(locations)}">
-            <th:block th:unless="${foundLocation != null}">
                 <div class="no-locations-message" style="font-size: 160%">
                     You haven't added any locations yet :(
                 </div>
-            </th:block>
         </th:block>
 
         <th:block th:each="location : ${locations}">
@@ -196,7 +193,7 @@
                     Temperature: <span th:text="${location.temp_c} + '°C'"></span>
                 </p>
                 <div class="container d-flex align-items-center mb-6">
-                    <form th:action="@{/location}" th:method="post" class="form-add">
+                    <form th:action="@{/home}" th:method="post" class="form-add">
                         <button class="heart-button" value="add" name="action">
                             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart-fill d-flex align-items-center justify-content-center" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -209,47 +206,11 @@
 
                     </form>
 
-                    <form th:action="@{/location}" th:method="get" class="form-add">
+                    <form th:action="@{/forecast}" th:method="get" class="form-add">
 
                         <button class="heart-button" value="add" name="action" style="color: ghostwhite; border: 3px solid ghostwhite">Learn more </button>
 
                         <input type="hidden" name="name" th:value="${location.name}"/>
-
-                    </form>
-                </div>
-            </div>
-        </th:block>
-
-        <th:block th:if="${foundLocation != null}">
-            <div class="location-card">
-                <div class="container d-flex align-items-center mb-6">
-                    <h3 class="location-name" th:text="${foundLocation.name}"></h3>
-                    <img th:src="${foundLocation.icon}" alt="Location Icon" class="location-icon" />
-                </div>
-                <p class="location-info">
-                    Latitude: <span th:text="${foundLocation.latitude}"></span><br>
-                    Longitude: <span th:text="${foundLocation.longitude}"></span><br>
-                    Temperature: <span th:text="${foundLocation.temp_c} + '°C'"></span>
-                </p>
-                <div class="container d-flex align-items-center mb-6">
-                    <form th:action="@{/foundLocation}" th:method="post" class="form-add">
-                        <button class="heart-button" value="add" name="action">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart-fill d-flex align-items-center justify-content-center" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
-                        </button>
-
-                        <input type="hidden" name="name" th:value="${foundLocation.name}"/>
-                        <input type="hidden" name="latitude" th:value="${foundLocation.latitude}"/>
-                        <input type="hidden" name="longitude" th:value="${foundLocation.longitude}"/>
-
-                    </form>
-
-                    <form th:action="@{/location}" th:method="get" class="form-add">
-
-                        <button class="heart-button" value="add" name="action" style="color: ghostwhite; border: 3px solid ghostwhite">Learn more </button>
-
-                        <input type="hidden" name="name" th:value="${foundLocation.name}"/>
 
                     </form>
                 </div>

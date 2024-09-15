@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 import org.nastya.dto.LocationResponseApiDTO;
-import org.nastya.exception.InternalServerError;
+import org.nastya.exception.InternalServerException;
 import org.nastya.exception.LocationNotFoundException;
 import org.nastya.service.WeatherAPIService;
 
@@ -38,6 +38,6 @@ public class WeatherAPIServiceTest {
     public void findLocation_incorrectCoordinatesFormat_shouldThrowInternalServerError() {
         String location = "48.8567 2.3508";
 
-        assertThrows(InternalServerError.class, () -> weatherAPIService.findLocation(location));
+        assertThrows(InternalServerException.class, () -> weatherAPIService.findLocation(location));
     }
 }

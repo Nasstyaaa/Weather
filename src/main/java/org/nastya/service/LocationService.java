@@ -15,17 +15,22 @@ public class LocationService {
     private final LocationDAO locationDAO = new LocationDAO();
     private final WeatherAPIService weatherAPIService = new WeatherAPIService();
 
-    public void updateUserLocations(LocationDTO locationDTO) {
+    public void add(LocationDTO locationDTO) {
         Optional<Location> location = locationDAO.findByNameAndUser(locationDTO.getName(), locationDTO.getUser());
-        if (location.isPresent()) {
-            locationDAO.delete(location.get());
-        } else {
+        if (location.isEmpty()) {
             locationDAO.save(new Location(
                     locationDTO.getName(),
                     locationDTO.getUser(),
                     locationDTO.getLatitude(),
                     locationDTO.getLongitude()));
+        } else {
+            throw new LocationNotFoundException();
         }
+    }
+
+    public void delete(LocationDTO locationDTO) {
+        Optional<Location> location = locationDAO.findByNameAndUser(locationDTO.getName(), locationDTO.getUser());
+        location.ifPresent(locationDAO::delete);
     }
 
     public List<LocationResponseApiDTO> findUserLocations(User user) {

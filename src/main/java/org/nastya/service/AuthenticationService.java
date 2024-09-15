@@ -5,7 +5,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.nastya.dao.SessionDAO;
 import org.nastya.dao.UserDAO;
 import org.nastya.dto.UserDTORequest;
-import org.nastya.exception.IncorrectLoginInformation;
+import org.nastya.exception.IncorrectLoginInformationException;
 import org.nastya.exception.UserAlreadyExistsException;
 import org.nastya.exception.UserNotFoundException;
 import org.nastya.model.Session;
@@ -21,7 +21,7 @@ public class AuthenticationService {
 
     public Cookie login(UserDTORequest userDTORequest){
         User user = userDAO.findByLogin(userDTORequest.getLogin())
-                .orElseThrow(IncorrectLoginInformation::new);
+                .orElseThrow(IncorrectLoginInformationException::new);
 
         if (BCrypt.checkpw(userDTORequest.getPassword(), user.getPassword())){
             UUID id = UUID.randomUUID();
@@ -37,7 +37,7 @@ public class AuthenticationService {
 
             return cookie;
         }
-        throw new IncorrectLoginInformation();
+        throw new IncorrectLoginInformationException();
     }
 
 

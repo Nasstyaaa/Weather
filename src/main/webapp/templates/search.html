@@ -143,20 +143,20 @@
         <span th:text="${message}"></span>
     </div>
     <header>
-        <a th:href="@{/search}" style="text-decoration: none"><h1>Weather-app</h1></a>
+        <h1>Weather-app</h1>
         <form th:action="@{/logout}" th:method="post" class="log-form">
             <a th:text="${user.login}" href="/home" style="color: ghostwhite;"></a>
             <button>Log Out</button>
         </form>
     </header>
 
-    <form th:action="@{/search}" th:method="post" class="input-form">
+    <form th:action="@{/search}" th:method="get" class="input-form">
         <h1 style="color: ghostwhite; margin-top: 5%; font-size: 210%">Enter location</h1>
         <input type="text" placeholder="Paris/48.8567,2.3508" required name="location">
         <button type="submit" class= "find">FIND</button>
     </form>
 
-    <form th:action="@{/location}" th:method="post">
+    <form th:action="@{/search}" th:method="post">
         <div th:if="${locationResponseApiDTO != null}" class="location-cards">
                 <div class="location-card">
                     <div class="container d-flex align-items-center mb-6">
