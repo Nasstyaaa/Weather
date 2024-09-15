@@ -195,7 +195,7 @@
                     Longitude: <span th:text="${location.longitude}"></span><br>
                     Temperature: <span th:text="${location.temp_c} + '°C'"></span>
                 </p>
-                <form th:action="@{/addLocation}" th:method="post" class="form-add">
+                <form th:action="@{/location}" th:method="post" class="form-add">
                     <button class="heart-button" value="add" name="action">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart-fill d-flex align-items-center justify-content-center" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -205,6 +205,13 @@
                     <input type="hidden" name="name" th:value="${location.name}"/>
                     <input type="hidden" name="latitude" th:value="${location.latitude}"/>
                     <input type="hidden" name="longitude" th:value="${location.longitude}"/>
+
+                </form>
+
+                <form th:action="@{/location}" th:method="get" class="form-add">
+                    <button class="heart-button" value="add" name="action">Learn more</button>
+
+                    <input type="hidden" name="name" th:value="${location.name}"/>
 
                 </form>
             </div>
@@ -221,7 +228,7 @@
                     Longitude: <span th:text="${foundLocation.longitude}"></span><br>
                     Temperature: <span th:text="${foundLocation.temp_c} + '°C'"></span>
                 </p>
-                <form th:action="@{/addLocation}" th:method="post" class="form-add">
+                <form th:action="@{/location}" th:method="post" class="form-add">
                     <button class="heart-button" value="add" name="action">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart-fill d-flex align-items-center justify-content-center" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
