@@ -3,6 +3,7 @@ package org.nastya.service;
 import org.nastya.dao.LocationDAO;
 import org.nastya.dto.LocationDTO;
 import org.nastya.dto.LocationResponseApiDTO;
+import org.nastya.exception.LocationNotFoundException;
 import org.nastya.model.Location;
 import org.nastya.model.User;
 
@@ -36,5 +37,9 @@ public class LocationService {
         });
 
         return locations;
+    }
+
+    public Location findUserLocation (String location, User user){
+        return locationDAO.findByNameAndUser(location, user).orElseThrow(LocationNotFoundException::new);
     }
 }

@@ -155,12 +155,17 @@
         Welcome <span th:text="${user.login}"></span>! Here is the weather that you added
     </div>
 
-    <form th:action="@{/main}" th:method="post" class="input-form">
+    <form th:action="@{/home}" th:method="post" class="input-form">
         <input type="text" placeholder="Paris" required name="location">
         <button type="submit" class= "find" value="find" name="action">FIND</button>
     </form>
 
     <div class="location-cards">
+        <th:block th:if="${#lists.isEmpty(locations)}">
+            <div class="no-locations-message" style="font-size: 160%">
+                You haven't added any locations yet :(
+            </div>
+        </th:block>
         <th:block th:each="location : ${locations}">
             <div class="location-card">
                 <div class="container d-flex align-items-center mb-6">
