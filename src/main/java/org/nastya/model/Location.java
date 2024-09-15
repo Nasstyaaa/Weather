@@ -1,12 +1,18 @@
 package org.nastya.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "lacations",
+@Table(name = "locations",
         indexes = @Index(columnList = "userId, name, latitude, longitude"))
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Location {
 
     @Id
@@ -16,10 +22,17 @@ public class Location {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     private BigDecimal latitude;
 
     private BigDecimal longitude;
+
+    public Location(String name, User user, BigDecimal latitude, BigDecimal longitude) {
+        this.name = name;
+        this.user = user;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }

@@ -5,13 +5,14 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.nastya.dao.SessionDAO;
 import org.nastya.dao.UserDAO;
 import org.nastya.dto.UserDTORequest;
-import org.nastya.exception.InvalidPasswordException;
+import org.nastya.exception.IncorrectLoginInformation;
 import org.nastya.exception.UserAlreadyExistsException;
 import org.nastya.exception.UserNotFoundException;
 import org.nastya.model.Session;
 import org.nastya.model.User;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class AuthenticationService {
@@ -20,7 +21,7 @@ public class AuthenticationService {
 
     public Cookie login(UserDTORequest userDTORequest){
         User user = userDAO.findByLogin(userDTORequest.getLogin())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(IncorrectLoginInformation::new);
 
         if (BCrypt.checkpw(userDTORequest.getPassword(), user.getPassword())){
             UUID id = UUID.randomUUID();
@@ -36,7 +37,7 @@ public class AuthenticationService {
 
             return cookie;
         }
-        throw new InvalidPasswordException();
+        throw new IncorrectLoginInformation();
     }
 
 
@@ -48,5 +49,20 @@ public class AuthenticationService {
         String password = BCrypt.hashpw(userDTORequest.getPassword(), BCrypt.gensalt(12));
         User user = new User(userDTORequest.getLogin(), password);
         userDAO.save(user);
+    }
+
+    public void logout(Session session){
+        sessionDAO.delete(session);
+    }
+
+    public Session checkLogin(Cookie[] cookies){
+        SessionDAO sessionDAO = new SessionDAO();
+
+        Cookie cookie = Arrays.stream(cookies)
+                .filter(c -> c.getName().equals("SessionId"))
+                .findAny()
+                .orElseThrow(UserNotFoundException::new);
+
+        return sessionDAO.findById(UUID.fromString(cookie.getValue())).orElseThrow(UserNotFoundException::new);
     }
 }
