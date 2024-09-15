@@ -201,6 +201,11 @@
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                         </svg>
                     </button>
+
+                    <input type="hidden" name="name" th:value="${location.name}"/>
+                    <input type="hidden" name="latitude" th:value="${location.latitude}"/>
+                    <input type="hidden" name="longitude" th:value="${location.longitude}"/>
+
                 </form>
             </div>
         </th:block>
@@ -222,6 +227,10 @@
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                         </svg>
                     </button>
+
+                    <input type="hidden" name="name" th:value="${foundLocation.name}"/>
+                    <input type="hidden" name="latitude" th:value="${foundLocation.latitude}"/>
+                    <input type="hidden" name="longitude" th:value="${foundLocation.longitude}"/>
                 </form>
             </div>
         </th:block>
