@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public class LocationService {
     private final LocationDAO locationDAO = new LocationDAO();
+    private final WeatherAPIService weatherAPIService = new WeatherAPIService();
 
     public void updateUserLocations(LocationDTO locationDTO) {
         Optional<Location> location = locationDAO.findByNameAndUser(locationDTO.getName(), locationDTO.getUser());
@@ -28,7 +29,6 @@ public class LocationService {
     }
 
     public List<LocationResponseApiDTO> findUserLocations(User user) {
-        WeatherAPIService weatherAPIService = new WeatherAPIService();
         List<LocationResponseApiDTO> locations = new ArrayList<>();
 
         locationDAO.findAllByUser(user).forEach(location -> {
@@ -39,7 +39,8 @@ public class LocationService {
         return locations;
     }
 
-    public Location findUserLocation (String location, User user){
-        return locationDAO.findByNameAndUser(location, user).orElseThrow(LocationNotFoundException::new);
+    public LocationResponseApiDTO findUserLocation(String location, User user) {
+        Location locationDB = locationDAO.findByNameAndUser(location, user).orElseThrow(LocationNotFoundException::new);
+        return weatherAPIService.findLocation(locationDB.getName());
     }
 }

@@ -37,12 +37,11 @@ public class UserPageServlet extends BaseServlet {
         Session session = authenticationService.checkLogin(req.getCookies());
         req.setAttribute("user", session.getUser());
 
-
         try {
             String locationName = req.getParameter("location");
-            Location location = locationService.findUserLocation(locationName, session.getUser());
+            LocationResponseApiDTO location = locationService.findUserLocation(locationName, session.getUser());
 
-            context.setVariable("locations", location);
+            context.setVariable("foundLocation", location);
             engine.process("home", context, resp.getWriter());
 
         } catch (LocationNotFoundException e) {
