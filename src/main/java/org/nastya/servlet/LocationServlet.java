@@ -7,10 +7,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.nastya.dto.DayDTO;
 import org.nastya.dto.LocationDTO;
 import org.nastya.dto.LocationForecastDayDTO;
+import org.nastya.dto.LocationResponseApiDTO;
+import org.nastya.exception.InternalServerError;
+import org.nastya.exception.LocationNotFoundException;
+import org.nastya.exception.MissingFormFieldException;
 import org.nastya.model.Session;
 import org.nastya.service.AuthenticationService;
 import org.nastya.service.LocationService;
 import org.nastya.service.WeatherAPIService;
+import org.nastya.util.ResponseUtil;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -25,10 +30,21 @@ public class LocationServlet extends BaseServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         Session session = authenticationService.checkLogin(req.getCookies());
+        context.setVariable("user", session.getUser());
 
-        String name = req.getParameter("name");
+        try {
+            String name = req.getParameter("name");
+            LocationForecastDayDTO locationForecastDayDTO = weatherAPIService.findForecastDay(name);
+            context.setVariable("locationForecastDayDTO", locationForecastDayDTO);
 
-        LocationForecastDayDTO locationForecastDayDTO = weatherAPIService.findForecastDay(name);
+            engine.process("forecastday", context, resp.getWriter());
+
+        } catch (MissingFormFieldException | LocationNotFoundException e) {
+            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/forecastday");
+
+        } catch (InternalServerError e) {
+            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_GATEWAY, "/forecastday");
+        }
 
     }
 

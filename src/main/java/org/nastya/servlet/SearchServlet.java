@@ -34,7 +34,7 @@ public class SearchServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         Session session = authenticationService.checkLogin(req.getCookies());
-        req.setAttribute("user", session.getUser());
+        context.setVariable("user", session.getUser());
 
         try {
             String location = req.getParameter("location");

@@ -35,7 +35,7 @@ public class UserPageServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         Session session = authenticationService.checkLogin(req.getCookies());
-        req.setAttribute("user", session.getUser());
+        context.setVariable("user", session.getUser());
 
         try {
             String locationName = req.getParameter("location");
