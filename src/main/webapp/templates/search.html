@@ -142,6 +142,7 @@
     <div th:if="${message != null}" class="alert alert-danger" role="alert">
         <span th:text="${message}"></span>
     </div>
+
     <header>
         <h1>Weather-app</h1>
         <form th:action="@{/logout}" th:method="post" class="log-form">

@@ -59,6 +59,7 @@ public class SearchServlet extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         Session session = authenticationService.checkLogin(req.getCookies());
+        context.setVariable("user", session.getUser());
 
         String name = req.getParameter("name");
         BigDecimal latitude = new BigDecimal(req.getParameter("latitude"));

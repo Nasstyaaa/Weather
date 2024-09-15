@@ -3,6 +3,7 @@ package org.nastya.service;
 import org.nastya.dao.LocationDAO;
 import org.nastya.dto.LocationDTO;
 import org.nastya.dto.LocationResponseApiDTO;
+import org.nastya.exception.LocationAlreadyAddedException;
 import org.nastya.exception.LocationNotFoundException;
 import org.nastya.model.Location;
 import org.nastya.model.User;
@@ -24,7 +25,7 @@ public class LocationService {
                     locationDTO.getLatitude(),
                     locationDTO.getLongitude()));
         } else {
-            throw new LocationNotFoundException();
+            throw new LocationAlreadyAddedException();
         }
     }
 
@@ -42,10 +43,5 @@ public class LocationService {
         });
 
         return locations;
-    }
-
-    public LocationResponseApiDTO findUserLocation(String location, User user) {
-        Location locationDB = locationDAO.findByNameAndUser(location, user).orElseThrow(LocationNotFoundException::new);
-        return weatherAPIService.findLocation(locationDB.getName());
     }
 }
