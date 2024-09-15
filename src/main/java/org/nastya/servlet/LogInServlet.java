@@ -36,7 +36,7 @@ public class LogInServlet extends BaseServlet {
             Cookie cookie = authenticationService.login(new UserDTORequest(login, password));
 
             resp.addCookie(cookie);
-            resp.sendRedirect(req.getContextPath() +"main");
+            resp.sendRedirect(req.getContextPath() +"search");
 
         } catch (MissingFormFieldException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/login");

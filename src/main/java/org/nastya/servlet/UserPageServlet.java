@@ -9,6 +9,7 @@ import org.nastya.model.Location;
 import org.nastya.model.Session;
 import org.nastya.service.AuthenticationService;
 import org.nastya.service.LocationService;
+import org.nastya.util.ResponseUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,18 +37,16 @@ public class UserPageServlet extends BaseServlet {
         Session session = authenticationService.checkLogin(req.getCookies());
         req.setAttribute("user", session.getUser());
 
-        String action = req.getParameter("action");
 
         try {
-            if (action.equals("find")) {
-                String locationName = req.getParameter("location");
-                Location location = locationService.findUserLocation(locationName, session.getUser());
+            String locationName = req.getParameter("location");
+            Location location = locationService.findUserLocation(locationName, session.getUser());
 
-                context.setVariable("locations", location);
-                engine.process("home", context, resp.getWriter());
-            }
+            context.setVariable("locations", location);
+            engine.process("home", context, resp.getWriter());
+
         } catch (LocationNotFoundException e) {
-
+            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_NOT_FOUND, "/home");
         }
 
     }

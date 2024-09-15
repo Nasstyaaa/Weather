@@ -142,12 +142,24 @@
         width: 40%;
         height: 35%;
     }
+
+    .alert {
+        position: fixed;
+        top: 90%;
+        left: 80%;
+        transform: translate(-50%, -50%);
+        font-size: 140%;
+    }
 </style>
 <body>
+    <div th:if="${message != null}" class="alert alert-danger" role="alert">
+        <span th:text="${message}"></span>
+    </div>
+
     <header>
         <a href="/main" style="text-decoration: none"><h1>Weather-app</h1></a>
-        <form th:action="@{/main}" th:method="post" class="log-form">
-            <button value="logout" name="action">Log Out</button>
+        <form th:action="@{/logout}" th:method="post" class="log-form">
+            <button>Log Out</button>
         </form>
     </header>
 
@@ -155,10 +167,16 @@
         Welcome <span th:text="${user.login}"></span>! Here is the weather that you added
     </div>
 
-    <form th:action="@{/home}" th:method="post" class="input-form">
-        <input type="text" placeholder="Paris" required name="location">
-        <button type="submit" class= "find" value="find" name="action">FIND</button>
-    </form>
+    <div>
+        <form th:action="@{/home}" th:method="post" class="input-form">
+            <input type="text" placeholder="Paris" required name="location">
+            <button type="submit" class= "find" value="find" name="action">FIND</button>
+        </form>
+
+        <form th:action="@{/home}" method="GET" class="input-form">
+            <button type="submit">X</button>
+        </form>
+    </div>
 
     <div class="location-cards">
         <th:block th:if="${#lists.isEmpty(locations)}">
@@ -177,7 +195,7 @@
                     Longitude: <span th:text="${location.longitude}"></span><br>
                     Temperature: <span th:text="${location.temp_c} + '°C'"></span>
                 </p>
-                <form th:action="@{/home}" th:method="post" class="form-add">
+                <form th:action="@{/addLocation}" th:method="post" class="form-add">
                     <button class="heart-button" value="add" name="action">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart-fill d-flex align-items-center justify-content-center" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>

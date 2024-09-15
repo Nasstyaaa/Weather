@@ -3,7 +3,6 @@ package org.nastya.servlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.nastya.dto.LocationDTO;
 import org.nastya.dto.LocationResponseApiDTO;
 import org.nastya.exception.InternalServerError;
 import org.nastya.exception.LocationNotFoundException;
@@ -15,13 +14,11 @@ import org.nastya.service.WeatherAPIService;
 import org.nastya.util.ResponseUtil;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
-@WebServlet(urlPatterns = "/main")
-public class MainPageServlet extends BaseServlet {
+@WebServlet(urlPatterns = "/search")
+public class SearchServlet extends BaseServlet {
     private final WeatherAPIService weatherAPIService = new WeatherAPIService();
     private final AuthenticationService authenticationService = new AuthenticationService();
-    private final LocationService locationService = new LocationService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -38,24 +35,6 @@ public class MainPageServlet extends BaseServlet {
             throws IOException {
         Session session = authenticationService.checkLogin(req.getCookies());
         req.setAttribute("user", session.getUser());
-
-        String action = req.getParameter("action");
-        if (action.equals("logout")) {
-            authenticationService.logout(session);
-            resp.sendRedirect(req.getContextPath() + "/");
-            return;
-
-        } else if (action.equals("add")) {
-            String name = req.getParameter("name");
-            BigDecimal latitude = new BigDecimal(req.getParameter("latitude"));
-            BigDecimal longitude = new BigDecimal(req.getParameter("longitude"));
-
-            LocationDTO locationDTO = new LocationDTO(name, session.getUser(), latitude, longitude);
-
-            locationService.updateUserLocations(locationDTO);
-            resp.sendRedirect(req.getContextPath() + "/home");
-            return;
-        }
 
         try {
             String location = req.getParameter("location");

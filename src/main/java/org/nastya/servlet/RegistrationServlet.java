@@ -33,7 +33,6 @@ public class RegistrationServlet extends BaseServlet {
                 throw new MissingFormFieldException();
             }
             authenticationService.register(new UserDTORequest(login, password));
-            resp.setStatus(HttpServletResponse.SC_OK); //TODO нужно ли здесь это?
             resp.sendRedirect(req.getContextPath() + "/");
 
         } catch (UserAlreadyExistsException e) {

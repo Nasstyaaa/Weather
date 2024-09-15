@@ -143,19 +143,19 @@
     </div>
     <header>
         <h1>Weather-app</h1>
-        <form th:action="@{/main}" th:method="post" class="log-form">
+        <form th:action="@{/logout}" th:method="post" class="log-form">
             <a th:text="${user.login}" href="/home" style="color: ghostwhite;"></a>
-            <button value="logout" name="action">Log Out</button>
+            <button>Log Out</button>
         </form>
     </header>
 
-    <form th:action="@{/main}" th:method="post" class="input-form">
+    <form th:action="@{/search}" th:method="post" class="input-form">
         <h1 style="color: ghostwhite; margin-top: 5%; font-size: 210%">Enter location</h1>
         <input type="text" placeholder="Paris/48.8567,2.3508" required name="location">
-        <button type="submit" class= "find" value="find" name="action">FIND</button>
+        <button type="submit" class= "find">FIND</button>
     </form>
 
-    <form th:action="@{/main}" th:method="post">
+    <form th:action="@{/addLocation}" th:method="post">
         <div th:if="${locationResponseApiDTO != null}" class="location-cards">
                 <div class="location-card">
                     <div class="container d-flex align-items-center mb-6">
@@ -167,7 +167,7 @@
                         Longitude: <span th:text="${locationResponseApiDTO.longitude}"></span><br>
                         Temperature: <span th:text="${locationResponseApiDTO.temp_c} + '°C'"></span>
                     </p>
-                    <button class="heart-button" value="add" name="action">
+                    <button class="heart-button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart-fill d-flex align-items-center justify-content-center" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                         </svg>
