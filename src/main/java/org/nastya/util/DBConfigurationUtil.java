@@ -6,6 +6,8 @@ import org.nastya.model.Location;
 import org.nastya.model.Session;
 import org.nastya.model.User;
 
+import java.util.Properties;
+
 public class DBConfigurationUtil {
     private static SessionFactory sessionFactory;
 
@@ -14,6 +16,13 @@ public class DBConfigurationUtil {
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Session.class)
                 .addAnnotatedClass(Location.class);
+
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.connection.url", System.getenv("DATASOURCE_URL"));
+        properties.setProperty("hibernate.connection.username", System.getenv("DATASOURCE_USERNAME"));
+        properties.setProperty("hibernate.connection.password", System.getenv("DATASOURCE_PASSWORD"));
+        configuration.addProperties(properties);
+
         initSessionFactory(configuration);
     }
 

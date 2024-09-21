@@ -2,6 +2,7 @@ package org.nastya.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.nastya.dto.DayDTO;
 import org.nastya.dto.LocationForecastDayDTO;
 import org.nastya.dto.LocationResponseApiDTO;
@@ -16,15 +17,17 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class WeatherAPIService {
 
     public LocationResponseApiDTO findLocation(String location) {
         String locationName = location.replace(" ", "%20");
+        Map<String, String> env = System.getenv();
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://api.weatherapi.com/v1/current.json?" +
-                            "q=" + locationName + "&key=bc2c6e79b7594e5eab475758241009"))
+                            "q=" + locationName + "&key=" + env.get("API_KEY")))
                     .GET()
                     .build();
 
@@ -55,10 +58,11 @@ public class WeatherAPIService {
 
     public LocationForecastDayDTO findForecastDay(String location){
         String locationName = location.replace(" ", "%20");
+        Map<String, String> env = System.getenv();
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://api.weatherapi.com/v1/forecast.json?" +
-                            "q=" + locationName + "&key=bc2c6e79b7594e5eab475758241009&days=5"))
+                            "q=" + locationName + "&key=" + env.get("API_KEY") + "&days=5"))
                     .GET()
                     .build();
 

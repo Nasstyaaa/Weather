@@ -6,7 +6,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.nastya.dao.SessionDAO;
 import org.nastya.dao.UserDAO;
 import org.nastya.dto.UserDTORequest;
-import org.nastya.exception.InvalidPasswordException;
+import org.nastya.exception.IncorrectLoginInformationException;
 import org.nastya.exception.UserAlreadyExistsException;
 import org.nastya.exception.UserNotFoundException;
 import org.nastya.model.Session;
@@ -56,22 +56,22 @@ public class AuthenticationServiceTest {
     public void register_userWithNotUniqueLogin_shouldThrowUserAlreadyExistsException() {
         authenticationService.register(userDTORequest);
 
-        assertThrowsExactly(UserAlreadyExistsException.class,
+        assertThrows(UserAlreadyExistsException.class,
                 () -> authenticationService.register(userDTORequest));
     }
 
     @Test
-    public void login_unregisteredUser_shouldThrowUserNotFoundException() {
-        assertThrowsExactly(UserNotFoundException.class,
+    public void login_unregisteredUser_shouldThrowIncorrectLoginInformationException() {
+        assertThrows(IncorrectLoginInformationException.class,
                 () -> authenticationService.login(userDTORequest));
     }
 
     @Test
-    public void login_registeredUserWithInvalidPassword_shouldThrowInvalidPasswordException() {
+    public void login_registeredUserWithInvalidPassword_shouldThrowIncorrectLoginInformationException() {
         authenticationService.register(userDTORequest);
         userDTORequest.setPassword("1234");
 
-        assertThrowsExactly(InvalidPasswordException.class,
+        assertThrows(IncorrectLoginInformationException.class,
                 () -> authenticationService.login(userDTORequest));
     }
 

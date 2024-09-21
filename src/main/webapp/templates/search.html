@@ -144,7 +144,7 @@
     </div>
 
     <header>
-        <h1>Weather-app</h1>
+        <a href="/home" style="text-decoration: none"><h1>Weather-app</h1></a>
         <form th:action="@{/logout}" th:method="post" class="log-form">
             <a th:text="${user.login}" href="/home" style="color: ghostwhite;"></a>
             <button>Log Out</button>

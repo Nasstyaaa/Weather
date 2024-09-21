@@ -27,7 +27,7 @@ dependencies {
     testImplementation("com.h2database:h2:2.3.232")
     testImplementation("io.quarkus:quarkus-junit5:3.14.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
-
+    implementation("io.github.cdimascio:dotenv-java:3.0.2")
 }
 
 tasks.withType<War> {
