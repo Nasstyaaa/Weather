@@ -58,6 +58,10 @@ public class AuthenticationService {
     public Session checkLogin(Cookie[] cookies){
         SessionDAO sessionDAO = new SessionDAO();
 
+        if(cookies == null){
+            throw new UserNotFoundException();
+        }
+
         Cookie cookie = Arrays.stream(cookies)
                 .filter(c -> c.getName().equals("SessionId"))
                 .findAny()

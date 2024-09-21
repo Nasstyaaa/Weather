@@ -159,6 +159,7 @@
     <header>
         <h1>Weather-app</h1>
         <form th:action="@{/logout}" th:method="post" class="log-form">
+            <a th:text="${user.login}" href="/home" style="color: ghostwhite; text-decoration: none"></a>
             <button>Log Out</button>
         </form>
     </header>
@@ -194,7 +195,7 @@
                 </p>
                 <div class="container d-flex align-items-center mb-6">
                     <form th:action="@{/home}" th:method="post" class="form-add">
-                        <button class="heart-button" value="add" name="action">
+                        <button class="heart-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart-fill d-flex align-items-center justify-content-center" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                             </svg>
@@ -208,7 +209,7 @@
 
                     <form th:action="@{/forecast}" th:method="get" class="form-add">
 
-                        <button class="heart-button" value="add" name="action" style="color: ghostwhite; border: 3px solid ghostwhite">Learn more </button>
+                        <button class="heart-button" style="color: ghostwhite; border: 3px solid ghostwhite">Learn more </button>
 
                         <input type="hidden" name="name" th:value="${location.name}"/>
 
