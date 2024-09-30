@@ -1,6 +1,9 @@
 package org.nastya.service;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.PersistenceException;
 import jakarta.servlet.http.Cookie;
+import org.hibernate.exception.ConstraintViolationException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.nastya.dao.SessionDAO;
 import org.nastya.dao.UserDAO;
@@ -42,13 +45,13 @@ public class AuthenticationService {
 
 
     public void register(UserDTORequest userDTORequest){
-        if (userDAO.findByLogin(userDTORequest.getLogin()).isPresent()){
+        try {
+            String password = BCrypt.hashpw(userDTORequest.getPassword(), BCrypt.gensalt(12));
+            User user = new User(userDTORequest.getLogin(), password);
+            userDAO.save(user);
+        } catch(ConstraintViolationException e){
             throw new UserAlreadyExistsException();
         }
-
-        String password = BCrypt.hashpw(userDTORequest.getPassword(), BCrypt.gensalt(12));
-        User user = new User(userDTORequest.getLogin(), password);
-        userDAO.save(user);
     }
 
     public void logout(Session session){

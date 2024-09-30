@@ -1,10 +1,11 @@
 package org.nastya.service;
 
+import jakarta.persistence.PersistenceException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.nastya.dao.LocationDAO;
 import org.nastya.dto.LocationDTO;
 import org.nastya.dto.LocationResponseApiDTO;
 import org.nastya.exception.LocationAlreadyAddedException;
-import org.nastya.exception.LocationNotFoundException;
 import org.nastya.model.Location;
 import org.nastya.model.User;
 
@@ -17,14 +18,13 @@ public class LocationService {
     private final WeatherAPIService weatherAPIService = new WeatherAPIService();
 
     public void add(LocationDTO locationDTO) {
-        Optional<Location> location = locationDAO.findByNameAndUser(locationDTO.getName(), locationDTO.getUser());
-        if (location.isEmpty()) {
+        try{
             locationDAO.save(new Location(
                     locationDTO.getName(),
                     locationDTO.getUser(),
                     locationDTO.getLatitude(),
                     locationDTO.getLongitude()));
-        } else {
+        } catch (ConstraintViolationException e){
             throw new LocationAlreadyAddedException();
         }
     }

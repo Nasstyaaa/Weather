@@ -18,13 +18,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 @WebServlet(urlPatterns = "/forecast")
-public class ForecastDayServlet extends BaseServlet{
+public class ForecastDayServlet extends BaseServlet {
     private final AuthenticationService authenticationService = new AuthenticationService();
     private final WeatherAPIService weatherAPIService = new WeatherAPIService();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Session session = authenticationService.checkLogin(req.getCookies());
         context.setVariable("user", session.getUser());
 
@@ -34,10 +33,8 @@ public class ForecastDayServlet extends BaseServlet{
             context.setVariable("locationForecastDayDTO", locationForecastDayDTO);
 
             engine.process("forecastday", context, resp.getWriter());
-
         } catch (MissingFormFieldException | LocationNotFoundException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/forecastday");
-
         } catch (InternalServerException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_GATEWAY, "/forecastday");
         }

@@ -2,7 +2,6 @@ package org.nastya.dao;
 
 import org.hibernate.Session;
 import org.nastya.model.User;
-import org.nastya.listener.DataListener;
 import org.nastya.util.DBConfigurationUtil;
 
 import java.util.Optional;

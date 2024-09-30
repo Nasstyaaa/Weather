@@ -1,17 +1,18 @@
 package org.nastya.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table (name = "sessions",
-        indexes = @Index(columnList = "userId, expires_at"))
-@Data
+        indexes = {
+                @Index(name = "idx_user_id", columnList = "user_id"),
+                @Index(name = "idx_expires", columnList = "expires_at")})
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Session {

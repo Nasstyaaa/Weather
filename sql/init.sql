@@ -22,7 +22,7 @@ CREATE INDEX idx_locations_user_id ON Locations(user_id);
 CREATE INDEX idx_locations_latitude ON Locations(latitude);
 CREATE INDEX idx_locations_name ON Locations(name);
 CREATE INDEX idx_locations_longitude ON Locations(longitude);
-
+CREATE UNIQUE INDEX idx_unique_name_user ON Locations(name, user_id);
 
 
 CREATE TABLE Sessions (
