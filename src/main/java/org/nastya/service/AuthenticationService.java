@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final UserDAO userDAO = new UserDAO();
     private final SessionDAO sessionDAO = new SessionDAO();
 
-    public Cookie login(UserDTORequest userDTORequest){
+    public Session login(UserDTORequest userDTORequest){
         User user = userDAO.findByLogin(userDTORequest.getLogin())
                 .orElseThrow(IncorrectLoginInformationException::new);
 
@@ -33,12 +33,7 @@ public class AuthenticationService {
             Session session = new Session(id, user, time);
             sessionDAO.save(session);
 
-            Cookie cookie = new Cookie("SessionId", id.toString());
-            cookie.setMaxAge(30 * 60);
-            cookie.setPath("/");
-            cookie.setHttpOnly(true);
-
-            return cookie;
+            return session;
         }
         throw new IncorrectLoginInformationException();
     }

@@ -30,16 +30,14 @@ public class RegistrationServlet extends BaseServlet {
 
         try {
             if (login.isBlank() || password.isBlank()) {
-                throw new MissingFormFieldException();
+                ResponseUtil.create(req, resp, new MissingFormFieldException(),
+                        HttpServletResponse.SC_BAD_REQUEST, "/registration");
             }
             authenticationService.register(new UserDTORequest(login, password));
             resp.sendRedirect(req.getContextPath() + "/");
-
         } catch (UserAlreadyExistsException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_CONFLICT, "/registration");
 
-        } catch (MissingFormFieldException e) {
-            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/registration");
         }
     }
 }

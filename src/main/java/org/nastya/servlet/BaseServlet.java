@@ -26,7 +26,6 @@ public abstract class BaseServlet extends HttpServlet {
         context = ThymeleafConfig.buildWebContext(req, resp, req.getServletContext());
         try {
             super.service(req, resp);
-            resp.setStatus(HttpServletResponse.SC_OK);
 
         } catch (UserNotFoundException e) {
             resp.sendRedirect(req.getContextPath() + "/");

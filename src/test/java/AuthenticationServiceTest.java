@@ -78,7 +78,8 @@ public class AuthenticationServiceTest {
     @Test
     public void login_registeredUserWithCorrectPassword_shouldLoginSuccessfulWithCreatedSession() {
         authenticationService.register(userDTORequest);
-        Cookie cookie = authenticationService.login(userDTORequest);
+        Session session = authenticationService.login(userDTORequest);
+        Cookie cookie = new Cookie("SessionId", session.getId().toString());
         UUID uuid = UUID.fromString(cookie.getValue());
 
         assertEquals(sessionDAO.findById(uuid).get().getId(), uuid);

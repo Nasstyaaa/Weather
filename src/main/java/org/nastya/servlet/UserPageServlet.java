@@ -5,11 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.nastya.dto.LocationDTO;
 import org.nastya.dto.LocationResponseApiDTO;
-import org.nastya.exception.LocationAlreadyExistsException;
 import org.nastya.model.Session;
 import org.nastya.service.AuthenticationService;
 import org.nastya.service.LocationService;
-import org.nastya.util.ResponseUtil;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -41,13 +39,8 @@ public class UserPageServlet extends BaseServlet {
         BigDecimal latitude = new BigDecimal(req.getParameter("latitude"));
         BigDecimal longitude = new BigDecimal(req.getParameter("longitude"));
 
-        try {
-            LocationDTO locationDTO = new LocationDTO(name, session.getUser(), latitude, longitude);
-            locationService.delete(locationDTO);
-            resp.sendRedirect(req.getContextPath() + "/home");
-
-        } catch (LocationAlreadyExistsException e) {
-            ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/main");
-        }
+        LocationDTO locationDTO = new LocationDTO(name, session.getUser(), latitude, longitude);
+        locationService.delete(locationDTO);
+        resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

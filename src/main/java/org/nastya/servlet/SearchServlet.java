@@ -30,23 +30,23 @@ public class SearchServlet extends BaseServlet {
         Session session = authenticationService.checkLogin(req.getCookies());
         context.setVariable("user", session.getUser());
 
+        String location = req.getParameter("location");
+        if (location == null){
+            resp.sendRedirect(req.getContextPath() +"/home");
+            return;
+
+        } else if (location.isBlank()) {
+            ResponseUtil.create(req, resp, new MissingFormFieldException(),
+                    HttpServletResponse.SC_BAD_REQUEST, "/search");
+        }
+
         try {
-            String location = req.getParameter("location");
-            if (location == null){
-                resp.sendRedirect(req.getContextPath() +"/home");
-                return;
-
-            } else if (location.isBlank()) {
-                throw new MissingFormFieldException();
-            }
-
             LocationResponseApiDTO locationResponseApiDTO = weatherAPIService.findLocation(location);
             context.setVariable("locationResponseApiDTO", locationResponseApiDTO);
 
             engine.process("search", context, resp.getWriter());
 
-        }
-        catch (MissingFormFieldException | LocationNotFoundException e) {
+        } catch (LocationNotFoundException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/search");
 
         } catch (InternalServerException e) {
