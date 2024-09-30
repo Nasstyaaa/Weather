@@ -1,11 +1,10 @@
 package org.nastya.service;
 
-import jakarta.persistence.PersistenceException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.nastya.dao.LocationDAO;
 import org.nastya.dto.LocationDTO;
 import org.nastya.dto.LocationResponseApiDTO;
-import org.nastya.exception.LocationAlreadyAddedException;
+import org.nastya.exception.LocationAlreadyExistsException;
 import org.nastya.model.Location;
 import org.nastya.model.User;
 
@@ -25,7 +24,7 @@ public class LocationService {
                     locationDTO.getLatitude(),
                     locationDTO.getLongitude()));
         } catch (ConstraintViolationException e){
-            throw new LocationAlreadyAddedException();
+            throw new LocationAlreadyExistsException();
         }
     }
 

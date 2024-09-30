@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.nastya.dto.LocationDTO;
 import org.nastya.dto.LocationResponseApiDTO;
 import org.nastya.exception.InternalServerException;
-import org.nastya.exception.LocationAlreadyAddedException;
+import org.nastya.exception.LocationAlreadyExistsException;
 import org.nastya.exception.LocationNotFoundException;
 import org.nastya.exception.MissingFormFieldException;
 import org.nastya.model.Session;
@@ -70,7 +70,7 @@ public class SearchServlet extends BaseServlet {
             locationService.add(locationDTO);
             resp.sendRedirect(req.getContextPath() + "/home");
 
-        } catch (LocationAlreadyAddedException e) {
+        } catch (LocationAlreadyExistsException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/search");
         }
     }

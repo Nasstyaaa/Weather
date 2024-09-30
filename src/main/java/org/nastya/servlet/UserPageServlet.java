@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.nastya.dto.LocationDTO;
 import org.nastya.dto.LocationResponseApiDTO;
-import org.nastya.exception.LocationAlreadyAddedException;
-import org.nastya.exception.LocationNotFoundException;
-import org.nastya.model.Location;
+import org.nastya.exception.LocationAlreadyExistsException;
 import org.nastya.model.Session;
 import org.nastya.service.AuthenticationService;
 import org.nastya.service.LocationService;
@@ -48,7 +46,7 @@ public class UserPageServlet extends BaseServlet {
             locationService.delete(locationDTO);
             resp.sendRedirect(req.getContextPath() + "/home");
 
-        } catch (LocationAlreadyAddedException e) {
+        } catch (LocationAlreadyExistsException e) {
             ResponseUtil.create(req, resp, e, HttpServletResponse.SC_BAD_REQUEST, "/main");
         }
     }
