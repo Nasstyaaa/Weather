@@ -1,5 +1,7 @@
 package org.nastya.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LocationResponseApiDTO {
 
-    private String name;
-    private String latitude;
-    private String longitude;
-    private String temp_c;
-    private String icon;
+    @JsonProperty("location")
+    private LocationApiDTO locationApiDTO;
+
+    @JsonProperty("current")
+    private CurrentApiDTO currentApiDTO;
 }

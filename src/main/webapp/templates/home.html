@@ -182,16 +182,16 @@
                 </div>
         </th:block>
 
-        <th:block th:each="location : ${locations}">
+        <th:block th:each="locationResponseApiDTO : ${locations}">
             <div class="location-card">
                 <div class="container d-flex align-items-center mb-6">
-                    <h3 class="location-name" th:text="${location.name}"></h3>
-                    <img th:src="${location.icon}" alt="Location Icon" class="location-icon" />
+                    <h3 class="location-name" th:text="${locationResponseApiDTO.LocationApiDTO.name}"></h3>
+                    <img th:src="${locationResponseApiDTO.CurrentApiDTO.ConditionApiDTO.icon}" alt="Location Icon" class="location-icon" />
                 </div>
                 <p class="location-info">
-                    Latitude: <span th:text="${location.latitude}"></span><br>
-                    Longitude: <span th:text="${location.longitude}"></span><br>
-                    Temperature: <span th:text="${location.temp_c} + '°C'"></span>
+                    Latitude: <span th:text="${locationResponseApiDTO.LocationApiDTO.latitude}"></span><br>
+                    Longitude: <span th:text="${locationResponseApiDTO.LocationApiDTO.longitude}"></span><br>
+                    Temperature: <span th:text="${locationResponseApiDTO.CurrentApiDTO.tempC} + '°C'"></span>
                 </p>
                 <div class="container d-flex align-items-center mb-6">
                     <form th:action="@{/home}" th:method="post" class="form-add">
@@ -201,9 +201,9 @@
                             </svg>
                         </button>
 
-                        <input type="hidden" name="name" th:value="${location.name}"/>
-                        <input type="hidden" name="latitude" th:value="${location.latitude}"/>
-                        <input type="hidden" name="longitude" th:value="${location.longitude}"/>
+                        <input type="hidden" name="name" th:value="${locationResponseApiDTO.LocationApiDTO.name}"/>
+                        <input type="hidden" name="latitude" th:value="${locationResponseApiDTO.LocationApiDTO.latitude}"/>
+                        <input type="hidden" name="longitude" th:value="${locationResponseApiDTO.LocationApiDTO.longitude}"/>
 
                     </form>
 
@@ -211,7 +211,7 @@
 
                         <button class="heart-button" style="color: ghostwhite; border: 3px solid ghostwhite">Learn more </button>
 
-                        <input type="hidden" name="name" th:value="${location.name}"/>
+                        <input type="hidden" name="name" th:value="${locationResponseApiDTO.LocationApiDTO.name}"/>
 
                     </form>
                 </div>

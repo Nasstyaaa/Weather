@@ -1,15 +1,20 @@
 package org.nastya.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationForecastDayDTO {
-    private LocationResponseApiDTO locationResponseApiDTO;
-    private List<DayDTO> dayDTOList;
+    @JsonProperty("location")
+    private LocationApiDTO location;
+
+    @JsonProperty("current")
+    private CurrentApiDTO current;
+
+    @JsonProperty("forecast")
+    private ForecastApiDTO forecast;
 }

@@ -18,9 +18,13 @@ public class DBConfigurationUtil {
                 .addAnnotatedClass(Location.class);
 
         Properties properties = new Properties();
-        properties.setProperty("hibernate.connection.url", System.getenv("DATASOURCE_URL"));
-        properties.setProperty("hibernate.connection.username", System.getenv("DATASOURCE_USERNAME"));
-        properties.setProperty("hibernate.connection.password", System.getenv("DATASOURCE_PASSWORD"));
+//        properties.setProperty("hibernate.connection.url", System.getenv("DATASOURCE_URL"));
+//        properties.setProperty("hibernate.connection.username", System.getenv("DATASOURCE_USERNAME"));
+//        properties.setProperty("hibernate.connection.password", System.getenv("DATASOURCE_PASSWORD"));
+
+        properties.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/weather");
+        properties.setProperty("hibernate.connection.username", "nastya");
+        properties.setProperty("hibernate.connection.password", "1234");
         configuration.addProperties(properties);
 
         initSessionFactory(configuration);

@@ -1,5 +1,6 @@
 import jakarta.servlet.http.Cookie;
 import org.hibernate.cfg.Configuration;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mindrot.jbcrypt.BCrypt;
@@ -26,8 +27,8 @@ public class AuthenticationServiceTest {
     private final SessionDAO sessionDAO = new SessionDAO();
     private UserDTORequest userDTORequest = new UserDTORequest("Robert", "qwerty");
 
-    @BeforeEach
-    public void createSession() throws IOException {
+    @BeforeAll
+    public static void createSession() throws IOException {
         Properties properties = new Properties();
         properties.setProperty("hibernate.connection.url", "jdbc:h2:mem:Weather");
         properties.setProperty("hibernate.driver_class", "org.h2.Driver");

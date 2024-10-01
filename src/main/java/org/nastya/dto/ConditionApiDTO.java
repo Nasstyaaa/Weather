@@ -1,5 +1,6 @@
 package org.nastya.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DayDTO {
-    private String date;
-    private String max_temp;
-    private String min_temp;
+public class ConditionApiDTO {
+    @JsonProperty("icon")
     private String icon;
 }

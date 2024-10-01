@@ -34,13 +34,8 @@ public class LocationService {
     }
 
     public List<LocationResponseApiDTO> findUserLocations(User user) {
-        List<LocationResponseApiDTO> locations = new ArrayList<>();
-
-        locationDAO.findAllByUser(user).forEach(location -> {
-            LocationResponseApiDTO locationDto = weatherAPIService.findLocation(location.getName());
-            locations.add(locationDto);
-        });
-
-        return locations;
+        return locationDAO.findAllByUser(user).stream()
+                .map(location -> weatherAPIService.findLocation(location.getName()))
+                .toList();
     }
 }
