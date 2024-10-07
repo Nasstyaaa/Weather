@@ -28,6 +28,8 @@ dependencies {
     testImplementation("io.quarkus:quarkus-junit5:3.14.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
     implementation("io.github.cdimascio:dotenv-java:3.0.2")
+    testImplementation("org.mockito:mockito-core:5.14.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.11.2")
 }
 
 tasks.withType<War> {

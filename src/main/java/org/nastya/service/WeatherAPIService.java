@@ -16,6 +16,15 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
 public class WeatherAPIService {
+    private final HttpClient client;
+
+    public WeatherAPIService() {
+        client = HttpClient.newHttpClient();
+    }
+
+    public WeatherAPIService(HttpClient client) {
+        this.client = client;
+    }
 
     public LocationResponseApiDTO findLocation(String location) {
         try {
@@ -26,9 +35,9 @@ public class WeatherAPIService {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 400) {
+            if (response.statusCode() == 400  || response.body().isEmpty()) {
                 throw new LocationNotFoundException();
             }
             return new ObjectMapper().readValue(response.body(), LocationResponseApiDTO.class);
@@ -46,9 +55,9 @@ public class WeatherAPIService {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 400) {
+            if (response.statusCode() == 400 || response.body().isEmpty()) {
                 throw new LocationNotFoundException();
             }
 

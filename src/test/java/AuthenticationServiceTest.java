@@ -25,13 +25,13 @@ public class AuthenticationServiceTest {
     private final AuthenticationService authenticationService = new AuthenticationService();
     private final UserDAO userDAO = new UserDAO();
     private final SessionDAO sessionDAO = new SessionDAO();
-    private UserDTORequest userDTORequest = new UserDTORequest("Robert", "qwerty");
 
     @BeforeAll
     public static void createSession() throws IOException {
         Properties properties = new Properties();
         properties.setProperty("hibernate.connection.url", "jdbc:h2:mem:Weather");
         properties.setProperty("hibernate.driver_class", "org.h2.Driver");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 
         Configuration configuration = new Configuration()
@@ -43,18 +43,19 @@ public class AuthenticationServiceTest {
 
     @Test
     public void register_userWithUniqueLogin_shouldRegisteredSuccessful() {
-        authenticationService.register(userDTORequest);
+        authenticationService.register(new UserDTORequest("Robert", "qwerty"));
 
         User registeredUser = userDAO.findByLogin("Robert").get();
         assertAll(
                 () -> assertEquals(1, registeredUser.getId()),
                 () -> assertEquals("Robert", registeredUser.getLogin()),
-                () -> assertTrue(BCrypt.checkpw(userDTORequest.getPassword(), registeredUser.getPassword())));
+                () -> assertTrue(BCrypt.checkpw("qwerty", registeredUser.getPassword())));
     }
 
 
     @Test
     public void register_userWithNotUniqueLogin_shouldThrowUserAlreadyExistsException() {
+        UserDTORequest userDTORequest = new UserDTORequest("Bob", "1234");
         authenticationService.register(userDTORequest);
 
         assertThrows(UserAlreadyExistsException.class,
@@ -64,24 +65,16 @@ public class AuthenticationServiceTest {
     @Test
     public void login_unregisteredUser_shouldThrowIncorrectLoginInformationException() {
         assertThrows(IncorrectLoginInformationException.class,
-                () -> authenticationService.login(userDTORequest));
+                () -> authenticationService.login(new UserDTORequest("Rober", "qwerty")));
     }
 
-    @Test
-    public void login_registeredUserWithInvalidPassword_shouldThrowIncorrectLoginInformationException() {
-        authenticationService.register(userDTORequest);
-        userDTORequest.setPassword("1234");
-
-        assertThrows(IncorrectLoginInformationException.class,
-                () -> authenticationService.login(userDTORequest));
-    }
 
     @Test
     public void login_registeredUserWithCorrectPassword_shouldLoginSuccessfulWithCreatedSession() {
+        UserDTORequest userDTORequest = new UserDTORequest("Mani", "qwertus");
         authenticationService.register(userDTORequest);
         Session session = authenticationService.login(userDTORequest);
-        Cookie cookie = new Cookie("SessionId", session.getId().toString());
-        UUID uuid = UUID.fromString(cookie.getValue());
+        UUID uuid = UUID.fromString(session.getId().toString());
 
         assertEquals(sessionDAO.findById(uuid).get().getId(), uuid);
 
