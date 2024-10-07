@@ -31,7 +31,7 @@ public class WeatherAPIService {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("https://api.weatherapi.com/v1/current.json?"
                             + "q=" + URLEncoder.encode(location, StandardCharsets.UTF_8)
-                            + "&key=bc2c6e79b7594e5eab475758241009" ))//+ System.getenv().get("API_KEY")))
+                            + "&key=" + System.getenv().get("API_KEY")))
                     .GET()
                     .build();
 
@@ -51,7 +51,7 @@ public class WeatherAPIService {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("https://api.weatherapi.com/v1/forecast.json?"
                             + "q=" + URLEncoder.encode(location, StandardCharsets.UTF_8)
-                            + "&key=bc2c6e79b7594e5eab475758241009" + "&days=3"))
+                            + "&key=" + System.getenv().get("API_KEY")+ "&days=3"))
                     .GET()
                     .build();
 
